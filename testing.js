@@ -12,15 +12,6 @@ describe('Greetings function:' ,
             }
         );
 
-        it ('should check if the right name is stored', 
-            function () {
-                let testGreeting = GreetMe();
-                testGreeting.setName('Autumn');
-
-                assert.deepEqual('Autumn', testGreeting.getName());
-            }
-        );
-
         it ('should check if a number is entered', 
             function () {
                 let testGreeting = GreetMe();
@@ -30,28 +21,57 @@ describe('Greetings function:' ,
             }
         );
 
+        it ('should check if a language was selected', 
+        function () {
+            let testGreeting = GreetMe();
+            testGreeting.setLang('samoa');
+            assert.deepEqual(true, testGreeting.checkLanguage());
+
+            let testGreeting2 = GreetMe();
+            testGreeting2.setLang();
+            assert.deepEqual(false, testGreeting2.checkLanguage());
+        }
+    );
+
         it ('should ensure only the first letter is in uppercase', 
             function () {
                 let testGreeting = GreetMe();
-                testGreeting.setName('autUMn'.toLocaleLowerCase());
+                testGreeting.setName('banaNA'.toLocaleLowerCase());
             
-                assert.deepEqual('Autumn', testGreeting.getName());
+                assert.deepEqual('Banana', testGreeting.getName());
             }
         );
 
-        it ('should check if a language was selected', 
-            function () {
-                let testGreeting = GreetMe();
-                testGreeting.setLang('samoa');
-                assert.deepEqual(true, testGreeting.checkLanguage());
+        /*it ('should check if a greeting is made', 
+        function () {
+            let testGreeting = GreetMe();
+            testGreeting.setName('PEacheS'.toLocaleLowerCase());
 
-                let testGreeting2 = GreetMe();
-                testGreeting2.setLang();
-                assert.deepEqual(false, testGreeting2.checkLanguage());
-            }
-        );
+            testGreeting.setLang('samoa');
+            testGreeting.checkLanguage();
+            testGreeting.langErrorMessage();
+            testGreeting.getLangError();
+            testGreeting.getLanguage();
+            testGreeting.getName();
+
+            assert.deepEqual('Talofa, Peaches', testGreeting.showGreeting());
+
+            
+        }
+    );*/
 
         //Test for greeting
         //Test for counter
+        it ('should check how many times a person is greeted', 
+            function () {
+                localStorage.clear();
+                let testGreeting = GreetMe();
+                testGreeting.greetingsCounter();
+                testGreeting.greetingsCounter();
+                testGreeting.greetingsCounter();
+            
+                assert.deepEqual('3', testGreeting.getCounter());
+            }
+        );
     }
 );
