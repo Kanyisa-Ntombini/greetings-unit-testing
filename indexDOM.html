@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>HOME</title>
+    <link rel="stylesheet" href="simple-grid/simple-grid.min.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header>
+        <h1>Molweni!</h1>
+    </header>
+
+    <main>
+        <!-- INPUT -->
+        <section class="center">
+            <label for="" class="">Name</label>
+            <input type="text" value="" placeholder="e.g. Jane" class="enter-name">
+        </section>
+
+        <!--ERROR NAME-->
+        <section class="">
+            <div class="error-name"></div>
+        </section>
+
+        <!-- CHOOSE LANGUAGE -->
+        <section class="center">
+            <label class="">
+                <input type="radio" name="langBtnRadio" class="langBtn" value="sotho">
+                Sesotho
+            </label>
+    
+            <label class="">
+                <input type="radio" name="langBtnRadio" class="langBtn" value="samoa">
+                Samoan
+            </label>
+    
+            <label class="">
+                <input type="radio" name="langBtnRadio" class="langBtn" value="english">
+                English
+            </label>
+        </section>
+
+        <!--ERROR LANG-->
+        <section class="">
+            <div class="error-lang"></div>
+        </section>
+
+        <!-- BUTTONS -->
+        <section class="buttons-container">
+            <div class="row">
+                <span class="col-6 greet-span">
+                    <button class="button-primary greet" type="button" name="button">Greet Me</button>
+                </span>
+                <span class="col-6 reset-span">
+                    <button class="button-primary reset" type="button" name="button">Reset</button>
+                </span>
+            </div>
+        </section>
+
+        <!--GREETING-->
+        <section class="">
+            <div class="greeting"></div>
+        </section>
+
+        <!-- COUNTER -->
+        <section class="center">
+            <span>Counter:</span>
+            <span class='count'>0</span>
+        </section>
+
+        <!-- RESET MESSAGE -->
+        <section class="reset-message"></section>
+    </main>
+
+    <footer></footer>
+    
+    <!-- *** SCRIPTS ****-->
+    <script src="../greetings-unit-testing/js/greet.js" charset="utf-8"></script>
+    <script src="../greetings-unit-testing/js/dom-logic.js" charset="utf-8"></script>
+</body>
+</html>

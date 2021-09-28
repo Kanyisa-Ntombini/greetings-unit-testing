@@ -1,0 +1,77 @@
+body {
+    background-color: aliceblue;
+}
+
+h1 {
+    font-family: Roboto;
+    text-align: center;
+    color: rgb(136, 240, 240);
+}
+
+.enter-name {
+    text-align: center;
+    border-radius: 1rem;
+    margin-left: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.error-name {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: crimson;
+    height: 1rem;
+}
+
+.error-lang {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1rem;
+    color: crimson;
+}
+
+.buttons-container {
+    width: 20%;
+    margin-left: 40%;
+}
+
+.greet-span {
+    text-align: center;
+}
+
+.reset-span {
+    text-align: center;
+}
+
+.greet {
+    border-radius: 1rem;
+}
+
+.reset {
+    border-radius: 1rem;
+}
+
+.greeting {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    color: green;
+    height: 1rem;
+    font-weight: bold;
+}
+
+.count {
+    background-color: rgb(136, 240, 240);
+    border: 0.2rem solid rgb(136, 240, 240);
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+.reset-message {
+    margin-top: 1rem;
+    text-align: center;
+    color: green;
+    height: 1rem;
+}

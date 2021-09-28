@@ -1,122 +1,95 @@
 function GreetMe() {
-    var theNameInput = '';
-    var checkNameMessage = '';
-    var checkNumberMessage = '';
-    var checkLangMessage = '';
-    var langInputChecked = '';
-    var langInput;
-    var greetMe = '';
+    let storedName = '';
+    let storedLang = '';
+    let greetMe = '';
+    let fullName = '';
+    let langErrorMessage = '';
 
+    //Enter the name
     function setName(name) {
-        theNameInput = name;
+        storedName = name;
     }
 
-    /* CHECKING IF A NAME HAS BEEN INSERTED */
     function checkName() {
-        return theNameInput.length > 0;
+        return storedName.length > 0;
     }
 
-    function nameErrorMessage () {
-        if (checkName()) {
-            checkLanguage();
-        } else {
-            checkNameMessage = 'Please enter a name';
+    function checkNumber() { //gives true if it is a number
+        return /\d/.test(storedName);
+    }
+
+    function getNameErrorMessage() {
+        if (! checkName()) {
+            return 'Please enter a name';
         }
     }
 
-    function getNameError() {
-        return checkNameMessage;
-    }
-
-    function checkNumber() {
-        return /\d/.test(theNameInput);
-    }
-
-    function numberErrorMessage() {
+    function getNumberErrorMessage() {
         if (checkNumber()) {
-            checkNumberMessage = 'Please do not enter a number';
-        } else {
-            checkLanguage();
+            return 'Please do not enter a number';
         }
     }
 
-    function getNumberError() {
-        return checkNumberMessage;
-    }
-
-    //LANGUAGE
-    function setLang(language) {
-        langInputChecked = language;
-    }
-
-    function checkLanguage() {
-        return langInputChecked != null;
-    }
-
-    function langErrorMessage() {
-        if (checkLanguage()) {
-            langInput = langInputChecked.value;
-        } else {
-            checkLangMessage = 'Please choose a language';
+    function makeName() {
+        if (checkName() && ! checkNumber()) {
+            let upper = storedName.charAt(0).toUpperCase();
+            let lower = storedName.slice(1).toLowerCase();
+            fullName = upper + lower;
         }
     }
 
-    function getLangError() {
-        return checkLangMessage;
+    function getFullName() {
+        return fullName;
     }
 
-    function getLanguage() {
-        if (langInput == 'sotho') {
-            greetMe = 'Dumela';
-        } else if (langInput == 'samoa') {
-            greetMe = 'Talofa';
-        } else if (langInput == 'english') {
-            greetMe = 'Hello';
-        }  
+    //Choose the language
+    function setLang(lang) {
+        storedLang = lang;
     }
 
-
-    /* OUTPUT */
-    function getName() {
-            var upper = theNameInput.charAt(0).toUpperCase();
-            var lower = theNameInput.slice(1);
-            return upper + lower;
+    function checkLang() {
+        return storedLang.length > 0;
     }
 
-    function showGreeting() {
-        return greetMe  + ', ' + getName();
-    }
-
-    /* COUNTER */
-    function greetingsCounter() {
-        //ADD CLICKS
-        if (localStorage['countClicks']) {
-            localStorage['countClicks'] = Number(localStorage['countClicks']) + 1;
+    function getLang() {
+        if (checkLang()) {
+            if (storedLang == 'sotho') {
+                greetMe = 'Dumela';
+            } else if (storedLang == 'samoa') {
+                greetMe = 'Talofa';
+            } else if (storedLang == 'english') {
+                greetMe = 'Hello';
+            }  
         } else {
-            localStorage['countClicks'] = 1;
+            langErrorMessage = 'Please choose a language';
         }
     }
-    
-    function getCounter() {
-        return localStorage.getItem('countClicks');
+
+    function getLangErrorMessage() {
+        return langErrorMessage;
     }
-    
+
+    //Display greeting
+    function displayGreeting() {
+        if (checkName() && ! checkNumber() && checkLang()) {
+            return greetMe + ' ' + fullName + '!';
+        } else {
+            return 'Please type in the name and choose a language again';
+        }
+    }
+
     return {
         setName,
         checkName,
-        nameErrorMessage,
-        getNameError,
         checkNumber,
-        numberErrorMessage,
-        getNumberError,
+        makeName,
+        getFullName,
+        getNameErrorMessage,
+        getNumberErrorMessage,
         setLang,
-        checkLanguage,
-        langErrorMessage,
-        getLangError,
-        getLanguage,
-        getName,
-        showGreeting,
-        greetingsCounter,
-        getCounter
+        checkLang,
+        getLang,
+        getLangErrorMessage,
+        displayGreeting
     }
 }

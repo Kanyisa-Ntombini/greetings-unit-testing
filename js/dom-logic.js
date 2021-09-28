@@ -1,122 +1,111 @@
-//INSTANCE OF THE FACTORY FUNCTION
-var myGreeting = GreetMe();
-var namesGreeted = {'hey': 4};
+//Counter displayed when page refreshes
+if (localStorage.getItem('fullNamesKey') == null) {
+    document.querySelector('.count').innerHTML = '0';
+} else {
+    let getNamesList = JSON.parse(localStorage.getItem('fullNamesKey'));
+    document.querySelector('.count').innerHTML = getNamesList.length;
+}
 
-var outCounterRefresh = document.querySelector('.count');
-outCounterRefresh.innerHTML = myGreeting.getCounter();
+//Factory function
+let myGreeting = GreetMe();
 
-//GREET ME BUTTON
-const greetMeBtn = document.querySelector('.greet');
-function greetMeFuncEvent() {
-    //CLEAR FIELDS
-    var errorName1 = document.querySelector('.err-name');
-    errorName1.innerHTML = "";
+function printName(){
+    //Reset
+    document.querySelector('.error-name').innerHTML = "";
+    document.querySelector('.error-lang').innerHTML = "";
+    document.querySelector('.greeting').innerHTML = '';
+    document.querySelector('.reset-message').innerHTML = '';
+    document.querySelector('.reset-message').innerHTML = '';
 
-    var errorLang1 = document.querySelector('.err-lang');
-    errorLang1.innerHTML = "";
 
-    var outGreet1 = document.querySelector(".greeting");
-    outGreet1.innerHTML = '';
+    //HTML ELEMENTS
+    const enterName = document.querySelector('.enter-name').value;
+    const langChosen = document.querySelector('.langBtn:checked');
+    const errorName = document.querySelector('.error-name');
+    const errorLang = document.querySelector('.error-lang');
+    const outGreet = document.querySelector('.greeting');
+    const outCounter = document.querySelector('.count');
 
-    //HTML STUFF
-    var enterName = document.querySelector('.enter-name').value.toLowerCase();
-    var langChosen = document.querySelector('.lang-btn:checked');
-    var errorName = document.querySelector('.err-name');
-    var errorLang = document.querySelector('.err-lang');
-    var outGreet = document.querySelector('.greeting');
-    var outCounter = document.querySelector('.count');
-
-    /* INPUT NAME */
+    //Name is entered
     myGreeting.setName(enterName);
-
-    /* PROCESS */
-    //Check if name is entered
-    if (!myGreeting.checkName()) {
-        myGreeting.nameErrorMessage();
-        errorName.innerHTML = myGreeting.getNameError();
-    } 
-
-    //Check if number is entered
-    if (myGreeting.checkNumber()) {
-        myGreeting.numberErrorMessage();
-        errorName.innerHTML = myGreeting.getNumberError();
+    myGreeting.checkName();
+    myGreeting.checkNumber();
+    myGreeting.makeName();
+    
+    if (! myGreeting.checkName()) {
+        errorName.innerHTML = myGreeting.getNameErrorMessage();
+        setTimeout(function(){ errorName.innerHTML = '' }, 3000);
+    } else if (myGreeting.checkNumber()) {
+        errorName.innerHTML = myGreeting.getNumberErrorMessage();
+        setTimeout(function(){ errorName.innerHTML = '' }, 3000);
     }
 
-    //Check if language is entered
-    myGreeting.setLang(langChosen);
-    if(myGreeting.checkName() && !myGreeting.checkNumber()) {
-        if (myGreeting.checkLanguage()) {
-            myGreeting.langErrorMessage();
-            myGreeting.getLanguage();
-            myGreeting.getName();
-            outGreet.innerHTML = myGreeting.showGreeting();
-
-            //COUNTER & CHECK IF NAME REPEATS
-
-            let namesGreetedStored = JSON.parse(localStorage.getItem('keys'));
-            console.log(namesGreetedStored);
-
-            //does names object exist
-            if (namesGreetedStored === null) {
-                myGreeting.greetingsCounter();
-                //create the names object
-                let obj = {};
-                obj[enterName] = 0;
-                localStorage['keys'] = JSON.stringify(obj);
-                //alert('one')
-                
-            } else {
-                //alert('two');
-                /* STORE names object in local storage */
-                if (namesGreetedStored[enterName] === undefined) {
-                    namesGreetedStored[enterName] = 0;
-                    console.log(namesGreetedStored);
-                    localStorage['keys'] = JSON.stringify(namesGreetedStored);
-                    
-                    myGreeting.greetingsCounter();
-                }
-            }
-            outCounter.innerHTML = myGreeting.getCounter();
-
-        } else {
-            myGreeting.langErrorMessage();
-            errorLang.innerHTML = myGreeting.getLangError();
+    //Store names in localStorage
+    if (localStorage.getItem('fullNamesKey') == null) {
+        let fullNamesList = [myGreeting.getFullName()];
+	    localStorage['fullNamesKey'] = JSON.stringify(fullNamesList);
+        console.log('if')
+    } else {
+        let fullNamesList = JSON.parse(localStorage.getItem('fullNamesKey'));
+        if (fullNamesList.indexOf(myGreeting.getFullName()) < 0) {
+            fullNamesList.push(myGreeting.getFullName());
+            localStorage.fullNamesKey = JSON.stringify(fullNamesList);
         }
     }
 
+    //Language is chosen
+    if (langChosen == null) {
+        myGreeting.setLang('');
+    } else {
+        myGreeting.setLang(langChosen.value);
+    }
+    myGreeting.checkLang();
+    myGreeting.getLang();
+
+    if (myGreeting.checkLang()) {
+        outGreet.innerHTML = myGreeting.displayGreeting();
+    } else {
+        errorLang.innerHTML = myGreeting.getLangErrorMessage();
+        setTimeout(function(){ errorLang.innerHTML = '' }, 3000);
+    }
+
+    //Counter is displayed
+    let getNamesList = JSON.parse(localStorage.getItem('fullNamesKey'));
+    outCounter.innerHTML = getNamesList.length;
+
     //CLEAR INPUT FIELD
-    var input1 = document.querySelector(".enter-name");
-    input1.value = '';
+    document.querySelector(".enter-name").value = '';
+    //CLEAR RADIO BUTTONS
+    langChosen.checked = false;
 }
-greetMeBtn.addEventListener('click', greetMeFuncEvent);
+
+const greetBtn = document.querySelector('.greet');
+greetBtn.addEventListener('click', printName);
 
 //RESET BUTTON
 const resetBtn = document.querySelector('.reset');
 function resetFuncEvent() {
     localStorage.clear();
 
-    //CLEAR INPUT FIELD
-    var input2 = document.querySelector(".enter-name");
-    input2.value = '';
-
-    //CLEAR ERROR NAME FIELD
-    var errorName2 = document.querySelector('.err-name');
-    errorName2.innerHTML = "";
-
-    //CLEAR LANG FIELD
-    var errorLang2 = document.querySelector('.err-lang');
-    errorLang2.innerHTML = "";
+    //Reset message
+    document.querySelector('.reset-message').innerHTML = 'Users have been cleared successfully';
 
     //CLEAR display counter
-    var displayCountResetBtn = document.querySelector(".count");
-    displayCountResetBtn.innerHTML = 0;
+    document.querySelector(".count").innerHTML = 0;
+
+    //CLEAR INPUT FIELD
+    document.querySelector(".enter-name").value = '';
+
+    //CLEAR ERROR NAME FIELD
+    document.querySelector('.error-name').innerHTML = "";
+
+    //CLEAR LANG FIELD
+    document.querySelector('.error-lang').innerHTML = "";
 
     //CLEAR GREETING (OUTPUT)
-    var outGreet2 = document.querySelector(".greeting");
-    outGreet2.innerHTML = '';
+    document.querySelector(".greeting").innerHTML = '';
 
     //CLEAR RADIO BUTTONS
-    var radioBtn = document.querySelector('.lang-btn');
-    radioBtn.checked = false;
+    document.querySelector('.lang-btn:checked').checked = false;
 }
 resetBtn.addEventListener('click', resetFuncEvent);
